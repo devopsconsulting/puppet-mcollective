@@ -3,9 +3,11 @@ class mcollective::slave($stomp_host) {
     case $::operatingsystem {
         'RedHat', 'CentOS', 'Fedora': {
             $ruby_stomp_package = "rubygem-stomp"
+            $mcollective_libdir = "/usr/libexec/mcollective/mcollective"
         }
         'Debian', 'Ubuntu': {
             $ruby_stomp_package = "ruby-stomp"
+            $mcollective_libdir = "/usr/share/mcollective/plugins/mcollective"
         }
     }
 
@@ -26,15 +28,15 @@ class mcollective::slave($stomp_host) {
     
     # very strange that a standard package requires renaming of file to activate but whatever.
     exec {"activate-service":
-        command => "/bin/mv /usr/share/mcollective/plugins/mcollective/agent/puppet-service.rb /usr/share/mcollective/plugins/mcollective/agent/service.rb",
-        creates => "/usr/share/mcollective/plugins/mcollective/agent/service.rb",
+        command => "/bin/mv $mcollective_libdir/agent/puppet-service.rb $mcollective_libdir/agent/service.rb",
+        creates => "$mcollective_libdir/agent/service.rb",
         require => Package["mcollective-plugins-service"],
         notify => Service["mcollective"],
     }
 
     exec {"activate-package":
-        command => "/bin/mv /usr/share/mcollective/plugins/mcollective/agent/puppet-package.rb /usr/share/mcollective/plugins/mcollective/agent/package.rb",
-        creates => "/usr/share/mcollective/plugins/mcollective/agent/package.rb",
+        command => "/bin/mv $mcollective_libdir/agent/puppet-package.rb $mcollective_libdir/agent/package.rb",
+        creates => "$mcollective_libdir/agent/package.rb",
         require => Package["mcollective-plugins-package"],
         notify => Service["mcollective"],
     }
