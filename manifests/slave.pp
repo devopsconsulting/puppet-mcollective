@@ -1,11 +1,20 @@
 class mcollective::slave($stomp_host) {
 
-    package{"ruby-stomp": ensure => latest }
+    case $::operatingsystem {
+        'RedHat', 'CentOS': {
+            $ruby_stomp_package = "rubygem-stomp"
+        }
+        'Debian', 'Ubuntu': {
+            $ruby_stomp_package = "ruby-stomp"
+        }
+    }
+
+    package{$ruby_stomp_package: ensure => latest }
     package{"mcollective-common": ensure => latest}
     
     package {"mcollective":
         ensure => latest,
-        require => [Package["ruby-stomp"], Package["mcollective-common"], File["/etc/mcollective/server.cfg"]],
+        require => [Package[$ruby_stomp_package], Package["mcollective-common"], File["/etc/mcollective/server.cfg"]],
     }
     package {[  "mcollective-plugins-puppetd",
                 "mcollective-plugins-service",
