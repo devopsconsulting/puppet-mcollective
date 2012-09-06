@@ -1,7 +1,7 @@
 class mcollective::slave($stomp_host) {
 
     case $::operatingsystem {
-        'RedHat', 'CentOS': {
+        'RedHat', 'CentOS', 'Fedora': {
             $ruby_stomp_package = "rubygem-stomp"
         }
         'Debian', 'Ubuntu': {
