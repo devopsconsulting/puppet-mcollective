@@ -1,7 +1,7 @@
 topicprefix = /topic/
 main_collective = <%= @environment %>
 collectives = mcollective,<%= @environment %>
-libdir = <% if @operatingsystem == "Fedora" -%>/usr/libexec/mcollective<% else -%>/usr/share/mcollective/plugins<% end %>
+libdir = <%= mcollective_libdir %>
 logfile = /var/log/mcollective.log
 loglevel = info
 daemonize = 1
