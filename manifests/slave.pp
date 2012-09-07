@@ -1,4 +1,4 @@
-class mcollective::slave($stomp_host="localhost") {
+class mcollective::slave($stomp_host='localhost', $stomp_port=6163, $stomp_user="mcollective", $stomp_password="pleasechangeme") {
 
     case $::operatingsystem {
         'RedHat', 'CentOS', 'Fedora': {

@@ -1,4 +1,4 @@
-class mcollective::master($stomp_host='localhost') {
+class mcollective::master($stomp_host='localhost', $stomp_port=6163, $stomp_user="mcollective", $stomp_password="pleasechangeme") {
     
     package {["mcollective-client"]:
         ensure => latest,
