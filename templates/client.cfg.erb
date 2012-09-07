@@ -11,9 +11,9 @@ plugin.psk = tR=a!2iafr0a
 
 connector = stomp
 plugin.stomp.host = <%= stomp_host.nil? ? "localhost" : stomp_host %>
-plugin.stomp.port = 6163
-plugin.stomp.user = mcollective
-plugin.stomp.password = _9_ehoE8ria1
+plugin.stomp.port = <%= stomp_port.nil? ? 6163 : stomp_port %>
+plugin.stomp.user = <%= stomp_user.nil? ? "mcollective" : stomp_user %>
+plugin.stomp.password = <%= stomp_password.nil? ? "_9_ehoE8ria1" : stomp_password %>
 
 # Facts
 factsource = yaml

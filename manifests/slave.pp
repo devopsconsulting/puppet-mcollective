@@ -1,4 +1,4 @@
-class mcollective::slave($stomp_host) {
+class mcollective::slave($stomp_host="localhost") {
 
     case $::operatingsystem {
         'RedHat', 'CentOS', 'Fedora': {
