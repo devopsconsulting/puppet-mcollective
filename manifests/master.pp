@@ -2,7 +2,7 @@ class mcollective::master($stomp_host='localhost', $stomp_port=6163, $stomp_user
     
     package {["mcollective-client"]:
         ensure => latest,
-        require => [Class["mcollective::slave"], Class["mcollective::rabbitmqstomp"]],
+        require => Class["mcollective::slave"],
     }
     
     $collectives = environment_collectives()
