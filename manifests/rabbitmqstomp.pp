@@ -1,5 +1,8 @@
 class mcollective::rabbitmqstomp {
-    class{"rabbitmq::repo::apt":}
+    if $::osfamily == "Debian" {
+        class{"rabbitmq::repo::apt":}
+    }
+
     class { 'rabbitmq::server':
       port              => '5673',
       delete_guest_user => true,
