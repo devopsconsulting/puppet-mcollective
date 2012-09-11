@@ -1,4 +1,14 @@
 class mcollective::master($stomp_host='localhost', $stomp_port=6163, $stomp_user="mcollective", $stomp_password="pleasechangeme") {
+    case $::operatingsystem {
+        'RedHat', 'CentOS', 'Fedora': {
+            $ruby_stomp_package = "rubygem-stomp"
+            $mcollective_libdir = "/usr/libexec/mcollective"
+        }
+        'Debian', 'Ubuntu': {
+            $ruby_stomp_package = "ruby-stomp"
+            $mcollective_libdir = "/usr/share/mcollective/plugins"
+        }
+    }
     
     package {["mcollective-client"]:
         ensure => latest,
