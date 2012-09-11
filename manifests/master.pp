@@ -1,5 +1,6 @@
-class mcollective::master($stomp_host='localhost', $stomp_port=6163, $stomp_user="mcollective", $stomp_password="pleasechangeme") {
-    include mcollective::params
+class mcollective::master($stomp_host='localhost', $stomp_port=6163,
+$stomp_user="mcollective", $stomp_password="pleasechangeme"
+) inherits mcollective::params {
 
     package {["mcollective-client"]:
         ensure => latest,

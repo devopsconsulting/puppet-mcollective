@@ -1,5 +1,6 @@
-class mcollective::slave($stomp_host='localhost', $stomp_port=6163, $stomp_user="mcollective", $stomp_password="pleasechangeme") {
-    include mcollective::params
+class mcollective::slave($stomp_host='localhost', $stomp_port=6163,
+$stomp_user="mcollective", $stomp_password="pleasechangeme"
+) inherits mcollective::params {
 
     package{$ruby_stomp_package: ensure => latest }
     package{"mcollective-common": ensure => latest}
