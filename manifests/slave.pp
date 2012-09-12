@@ -19,7 +19,7 @@ $stomp_user="mcollective", $stomp_password="pleasechangeme"
     
     # very strange that a standard package requires renaming of file to activate but whatever.
     exec {"activate-service":
-        command => "/bin/mv $mcollective_libdir/agent/puppet-service.rb $mcollective_libdir/mcollective/agent/service.rb",
+        command => "/bin/mv $mcollective_libdir/mcollective/agent/puppet-service.rb $mcollective_libdir/mcollective/agent/service.rb",
         creates => "$mcollective_libdir/mcollective/agent/service.rb",
         require => Package["mcollective-plugins-service"],
         notify => Service["mcollective"],
