@@ -1,14 +1,19 @@
 class mcollective::slave($stomp_host='localhost', $stomp_port=6163,
 $stomp_user="mcollective", $stomp_password="pleasechangeme"
 ) inherits mcollective::params {
-
-    package{$ruby_stomp_package: ensure => latest }
-    package{"mcollective-common": ensure => latest}
+    
+    # make sure symlinks to mcollective in ruby1.8 are in place
+    # before installation of mcollective, because apt will
+    # crash otherwise.
+    class {"mcollective::fixgempath":} -> Class['mcollective::slave']
+    
+    package{$ruby_stomp_package: ensure => latest } ->
+    package{"mcollective-common": ensure => latest} ->
     
     package {"mcollective":
         ensure => latest,
-        require => [Package[$ruby_stomp_package], Package["mcollective-common"], File["/etc/mcollective/server.cfg"]],
-    }
+        require => File["/etc/mcollective/server.cfg"],
+    } ->
     package {[  "mcollective-plugins-puppetd",
                 "mcollective-plugins-service",
                 "mcollective-plugins-package",
@@ -45,7 +50,7 @@ $stomp_user="mcollective", $stomp_password="pleasechangeme"
     file{"/etc/mcollective/facts.yaml":
         owner    => root,
         group    => root,
-        mode     => 400,
+        mode     => '0400',
         loglevel => debug,  # this is needed to avoid it being logged and reported on every run
         # avoid including highly-dynamic facts as they will cause unnecessary template writes
         content  => inline_template("<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime_seconds|timestamp|free)/ }.to_yaml %>")
