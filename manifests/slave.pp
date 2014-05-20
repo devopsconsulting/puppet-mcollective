@@ -1,5 +1,8 @@
 class mcollective::slave($stomp_host='localhost', $stomp_port=6163,
-$stomp_user="mcollective", $stomp_password="pleasechangeme"
+$stomp_user="mcollective", $stomp_password="pleasechangeme",
+$plugins=["mcollective-plugins-puppetd",
+          "mcollective-plugins-service",
+          "mcollective-plugins-package"]
 ) inherits mcollective::params {
     
     package {$ruby_stomp_package: ensure => latest } ->
@@ -9,10 +12,7 @@ $stomp_user="mcollective", $stomp_password="pleasechangeme"
         ensure => latest,
         require => File["/etc/mcollective/server.cfg"],
     } ->
-    package {[  "mcollective-plugins-puppetd",
-                "mcollective-plugins-service",
-                "mcollective-plugins-package",
-                "mcollective-plugins-cleanup"]:
+    package {$plugins:
         ensure => latest,
         require => Package["mcollective"]
     }
