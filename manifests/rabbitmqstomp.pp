@@ -26,13 +26,11 @@ class mcollective::rabbitmqstomp($stomp_user="mcollective", $stomp_password="ple
         provider => 'rabbitmqctl',
     }
 
-    $collectives = environment_collectives_hash()
-    $params = {
+    $collectives = environment_collectives()
+    mcollective::channel { $collectives:
         stomp_user => $stomp_user,
         stomp_password => $stomp_password
     }
-    create_resources(mcollective::channel, $collectives, $params)
-
     mcollective::channel { "mcollective":
         stomp_user => $stomp_user,
         stomp_password => $stomp_password
