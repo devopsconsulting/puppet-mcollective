@@ -5,7 +5,7 @@ $stomp_user="mcollective", $stomp_password="pleasechangeme"
     # make sure symlinks to mcollective in ruby1.8 are in place
     # before installation of mcollective, because apt will
     # crash otherwise.
-    class {"mcollective::fixgempath":} -> Class['mcollective::slave']
+    #class {"mcollective::fixgempath":} -> Class['mcollective::slave']
     
     package{$ruby_stomp_package: ensure => latest } ->
     package{"mcollective-common": ensure => latest} ->

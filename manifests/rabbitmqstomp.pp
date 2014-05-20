@@ -1,27 +1,46 @@
-class mcollective::rabbitmqstomp {
+class mcollective::rabbitmqstomp($stomp_user="mcollective", $stomp_password="pleasechangeme") {
+    include stdlib
+
     if $::osfamily == "Debian" {
         class{"rabbitmq::repo::apt":}
     }
 
     class { 'rabbitmq::server':
-      port              => '5673',
-      delete_guest_user => true,
-      config_stomp => true,
+        port              => '5673',
+        delete_guest_user => true,
+        config_stomp => true,
     }
-    rabbitmq_user { 'mcollective':
-      admin    => true,
-      password => '_9_ehoE8ria1',
-      provider => 'rabbitmqctl',
+    rabbitmq_vhost { '/mcollective':
+        ensure => present,
+        provider => 'rabbitmqctl',
     }
-    rabbitmq_user_permissions {"mcollective@/":
+    rabbitmq_user { $stomp_user :
+        admin    => true,
+        password => $stomp_password,
+        provider => 'rabbitmqctl',
+    }
+    rabbitmq_user_permissions {"${stomp_user}@/mcollective":
         configure_permission => '.*',
-          read_permission      => '.*',
-          write_permission     => '.*',
-          provider => 'rabbitmqctl',
+        read_permission      => '.*',
+        write_permission     => '.*',
+        provider => 'rabbitmqctl',
     }
+
+    $collectives = environment_collectives_hash()
+    $params = {
+        stomp_user => $stomp_user,
+        stomp_password => $stomp_password
+    }
+    create_resources(mcollective::channel, $collectives, $params)
+
+    mcollective::channel { "mcollective":
+        stomp_user => $stomp_user,
+        stomp_password => $stomp_password
+    }
+
     rabbitmq_plugin {'rabbitmq_stomp':
-      ensure => present,
-      provider => 'rabbitmqplugins',
+        ensure => present,
+        provider => 'rabbitmqplugins',
     }
     rabbitmq_plugin {"amqp_client":
         ensure => present,
