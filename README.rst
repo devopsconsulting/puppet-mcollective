@@ -21,4 +21,7 @@ Install the mco command line tool::
 
 Install a rabbitmq stomp server to connect your servers into a collective::
     
-    class {"mcollective::rabbitmqstomp":}
+    class {"mcollective::rabbitmqstomp":
+        stomp_user => "mcollective",
+        stomp_password => "pleasechangeme"
+    }

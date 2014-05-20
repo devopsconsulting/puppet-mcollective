@@ -2,13 +2,8 @@ class mcollective::slave($stomp_host='localhost', $stomp_port=6163,
 $stomp_user="mcollective", $stomp_password="pleasechangeme"
 ) inherits mcollective::params {
     
-    # make sure symlinks to mcollective in ruby1.8 are in place
-    # before installation of mcollective, because apt will
-    # crash otherwise.
-    #class {"mcollective::fixgempath":} -> Class['mcollective::slave']
-    
-    package{$ruby_stomp_package: ensure => latest } ->
-    package{"mcollective-common": ensure => latest} ->
+    package {$ruby_stomp_package: ensure => latest } ->
+    package {"mcollective-common": ensure => latest} ->
     
     package {"mcollective":
         ensure => latest,
