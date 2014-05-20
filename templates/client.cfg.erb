@@ -1,7 +1,7 @@
 topicprefix = /topic/
 main_collective = mcollective
-collectives = mcollective,<%= collectives.join(',') %>
-libdir = <%= mcollective_libdir %>
+collectives = mcollective,<%= @collectives.join(',') %>
+libdir = <%= @mcollective_libdir %>
 logger_type = console
 loglevel = warn
 
@@ -13,10 +13,10 @@ connector = rabbitmq
 
 plugin.rabbitmq.vhost = /mcollective
 plugin.rabbitmq.pool.size = 1
-plugin.rabbitmq.pool.1.host = <%= stomp_host.nil? ? "localhost" : stomp_host %>
-plugin.rabbitmq.pool.1.port = <%= stomp_port.nil? ? 6163 : stomp_port %>
-plugin.rabbitmq.pool.1.user = <%= stomp_user.nil? ? "mcollective" : stomp_user %>
-plugin.rabbitmq.pool.1.password = <%= stomp_password.nil? ? "pleasechangeme" : stomp_password %>
+plugin.rabbitmq.pool.1.host = <%= @stomp_host.nil? ? "localhost" : @stomp_host %>
+plugin.rabbitmq.pool.1.port = <%= @stomp_port.nil? ? 6163 : @stomp_port %>
+plugin.rabbitmq.pool.1.user = <%= @stomp_user.nil? ? "mcollective" : @stomp_user %>
+plugin.rabbitmq.pool.1.password = <%= @stomp_password.nil? ? "pleasechangeme" : @stomp_password %>
 
 # Facts
 factsource = yaml
